@@ -27,8 +27,6 @@ class CustomerService(private val repository: CustomerRepository) {
 
         if (customer.isPresent) {
             customer.get().phoneNumbers.add(PhoneNumber(phone))
-
-            return Optional.of(repository.save(customer.get()))
         }
 
         return customer
@@ -41,7 +39,6 @@ class CustomerService(private val repository: CustomerRepository) {
             val address = Address(command.city, command.state, command.street, command.zip)
 
             customer.get().addresses.add(address)
-            repository.save(customer.get())
         }
 
         return customer
