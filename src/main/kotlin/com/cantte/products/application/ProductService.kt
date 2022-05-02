@@ -20,7 +20,9 @@ class ProductService(private val repository: ProductRepository) {
         return products.map { it.toResponse() }
     }
 
-    private fun Product.toResponse(): ProductResponse {
-        return ProductResponse(this.code, this.name, this.price, this.tax)
+    companion object {
+        fun Product.toResponse(): ProductResponse {
+            return ProductResponse(this.code, this.name, this.price, this.tax)
+        }
     }
 }

@@ -57,13 +57,20 @@ class CustomerService(private val repository: CustomerRepository) {
         else Optional.empty()
     }
 
-    fun Customer.toResponse(): CustomerResponse {
-        return CustomerResponse(this.id,
-            this.name,
-            this.lastName,
-            this.email,
-            this.getAddresses().map { AddressResponse(it.id, it.city, it.state, it.street, it.zip) },
-            this.getPhoneNumbers().map { PhoneNumberResponse(it.number) })
-    }
+    companion object {
+        fun Customer.toResponse(): CustomerResponse {
+            return CustomerResponse(this.id,
+                this.name,
+                this.lastName,
+                this.email,
+                this.getAddresses().map { it.toResponse() },
+                this.getPhoneNumbers().map { PhoneNumberResponse(it.number) })
+        }
 
+        fun Address.toResponse(): AddressResponse {
+            return AddressResponse(
+                id, city, state, street, zip
+            )
+        }
+    }
 }
