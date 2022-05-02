@@ -3,6 +3,7 @@ package com.cantte.api
 import com.cantte.customers.application.CustomerService
 import com.cantte.customers.application.create.CreateAddressCommand
 import com.cantte.customers.application.create.CreateCustomerCommand
+import com.cantte.customers.application.create.CreatePhoneNumberCommand
 import com.cantte.customers.domain.Customer
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -33,11 +34,13 @@ class CustomerController(private val service: CustomerService) {
     }
 
     @PostMapping("/{id}/phone_numbers")
-    fun addPhoneNumber(@PathVariable id: String, @RequestBody phoneNumber: String): ResponseEntity<Customer> {
+    fun addPhoneNumber(
+        @PathVariable id: String, @RequestBody request: CreatePhoneNumberCommand
+    ): ResponseEntity<Customer> {
 
-        log.info("Received phone={} with id={}", phoneNumber, id)
+        log.debug("Received phone={} with id={}", request.number, id)
 
-        val customer = service.addPhone(id, phoneNumber)
+        val customer = service.addPhone(id, request.number)
 
         if (customer.isEmpty) {
             return ResponseEntity.notFound().build()

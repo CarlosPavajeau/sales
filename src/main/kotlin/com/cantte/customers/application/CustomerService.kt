@@ -23,7 +23,7 @@ class CustomerService(private val repository: CustomerRepository) {
     }
 
     fun addPhone(id: String, phone: String): Optional<Customer> {
-        val customer = repository.findById(id)
+        val customer = find(id)
 
         if (customer.isPresent) {
             customer.get().phoneNumbers.add(PhoneNumber(phone))
