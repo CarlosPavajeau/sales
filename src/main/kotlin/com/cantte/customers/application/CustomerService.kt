@@ -62,7 +62,7 @@ class CustomerService(private val repository: CustomerRepository) {
             this.name,
             this.lastName,
             this.email,
-            this.getAddresses().map { AddressResponse(it.city, it.state, it.street, it.zip) },
+            this.getAddresses().map { AddressResponse(it.id, it.city, it.state, it.street, it.zip) },
             this.getPhoneNumbers().map { PhoneNumberResponse(it.number) })
     }
 

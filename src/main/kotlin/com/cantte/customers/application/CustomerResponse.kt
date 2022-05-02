@@ -3,6 +3,7 @@ package com.cantte.customers.application
 data class PhoneNumberResponse(val number: String)
 
 data class AddressResponse(
+    val id: Long,
     val city: String,
     val state: String,
     val street: String,
