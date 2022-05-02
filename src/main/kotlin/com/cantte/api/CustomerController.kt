@@ -1,10 +1,10 @@
 package com.cantte.api
 
+import com.cantte.customers.application.CustomerResponse
 import com.cantte.customers.application.CustomerService
 import com.cantte.customers.application.create.CreateAddressCommand
 import com.cantte.customers.application.create.CreateCustomerCommand
 import com.cantte.customers.application.create.CreatePhoneNumberCommand
-import com.cantte.customers.domain.Customer
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,7 +23,7 @@ class CustomerController(private val service: CustomerService) {
     }
 
     @GetMapping("/{id}")
-    fun find(@PathVariable id: String): ResponseEntity<Customer> {
+    fun find(@PathVariable id: String): ResponseEntity<CustomerResponse> {
         val customer = service.find(id)
 
         if (customer.isEmpty) {
@@ -36,7 +36,7 @@ class CustomerController(private val service: CustomerService) {
     @PostMapping("/{id}/phone_numbers")
     fun addPhoneNumber(
         @PathVariable id: String, @RequestBody request: CreatePhoneNumberCommand
-    ): ResponseEntity<Customer> {
+    ): ResponseEntity<CustomerResponse> {
 
         log.debug("Received phone={} with id={}", request.number, id)
 
@@ -50,7 +50,9 @@ class CustomerController(private val service: CustomerService) {
     }
 
     @PostMapping("/{id}/addresses")
-    fun addAddress(@PathVariable id: String, @RequestBody address: CreateAddressCommand): ResponseEntity<Customer> {
+    fun addAddress(
+        @PathVariable id: String, @RequestBody address: CreateAddressCommand
+    ): ResponseEntity<CustomerResponse> {
         val customer = service.addAddress(id, address)
 
         if (customer.isEmpty) {

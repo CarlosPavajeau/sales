@@ -12,12 +12,11 @@ data class Address(
     val state: String,
     val street: String,
     val zip: String? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    val customer: Customer? = null
 ) {
     constructor(city: String, state: String, street: String, zip: String? = null) : this(0, city, state, street, zip)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    lateinit var customer: Customer
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

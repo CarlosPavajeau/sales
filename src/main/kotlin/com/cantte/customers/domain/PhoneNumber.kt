@@ -6,11 +6,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "phone_numbers")
 data class PhoneNumber(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long, val number: String,
-
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "customer_id") val customer: Customer? = null
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long, val number: String
 ) {
     constructor(number: String) : this(0, number)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    lateinit var customer: Customer
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

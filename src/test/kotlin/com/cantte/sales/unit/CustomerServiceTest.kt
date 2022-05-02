@@ -5,7 +5,6 @@ import com.cantte.customers.application.create.CreateAddressCommand
 import com.cantte.customers.application.create.CreateCustomerCommand
 import com.cantte.customers.domain.Customer
 import com.cantte.customers.domain.CustomerRepository
-import com.cantte.customers.domain.PhoneNumber
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -56,7 +55,7 @@ class CustomerServiceTest {
         val response = service.find("321")
 
         assertTrue(response.get().phoneNumbers.isNotEmpty())
-        assertTrue(response.get().phoneNumbers.contains(PhoneNumber("1234567890")))
+        assertTrue(response.get().phoneNumbers.any { it.number == "1234567890" })
     }
 
     @Test
