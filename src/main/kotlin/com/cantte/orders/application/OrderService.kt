@@ -25,17 +25,17 @@ class OrderService(
         if (customer.isEmpty) {
             return Optional.empty()
         }
-        val deliveryAddress =
-            customer.get().getAddresses().find { it.id == command.deliveryAddressId } ?: return Optional.empty()
+        val addresses = customer.get().getAddresses()
+        val deliveryAddress = addresses.find { it.id == command.deliveryAddressId } ?: return Optional.empty()
 
-        val products = productRepository.findAllById(command.orderItems.map { it.productCode })
-        if (products.count() != command.orderItems.size) {
+        val products = productRepository.findAllById(command.items.map { it.productCode })
+        if (products.count() != command.items.size) {
             return Optional.empty()
         }
 
         val items = products.map { product ->
             OrderItem(
-                product, command.orderItems.find { it.productCode == product.code }!!.quantity
+                product, command.items.find { it.productCode == product.code }!!.quantity
             )
         }
 
