@@ -20,7 +20,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     private val issuer: String? = null
 
     override fun configure(http: HttpSecurity) {
-        http.authorizeRequests().anyRequest().authenticated().and().oauth2ResourceServer().jwt().decoder(jwtDecoder())
+        http.cors()
+            .and().authorizeRequests().anyRequest().authenticated()
+            .and().oauth2ResourceServer().jwt().decoder(jwtDecoder())
     }
 
     private fun jwtDecoder(): JwtDecoder {
