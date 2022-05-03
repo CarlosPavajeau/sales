@@ -3,8 +3,7 @@ package com.cantte.orders.domain
 import com.cantte.customers.domain.Address
 import com.cantte.customers.domain.Customer
 import org.hibernate.Hibernate
-import java.time.Instant
-import java.util.Date
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -20,6 +19,10 @@ data class Order(
         mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true
     ) val items: MutableSet<OrderItem>,
 
+    @OneToMany(
+        mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true
+    ) val payments: MutableSet<Payment>,
+
     val createdAt: Date, val deliveredAt: Date?
 ) {
 
@@ -27,15 +30,11 @@ data class Order(
         customer: Customer,
         deliverAddress: Address,
         items: MutableSet<OrderItem>,
+        payments: MutableSet<Payment>,
         createdAt: Date,
         deliveredAt: Date?
     ) : this(
-        0,
-        customer,
-        deliverAddress,
-        items,
-        createdAt,
-        deliveredAt
+        0, customer, deliverAddress, items, payments, createdAt, deliveredAt
     )
 
     override fun equals(other: Any?): Boolean {

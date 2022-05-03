@@ -6,7 +6,9 @@ import com.cantte.customers.domain.CustomerRepository
 import com.cantte.orders.application.OrderService
 import com.cantte.orders.application.create.CreateOrderCommand
 import com.cantte.orders.application.create.CreateOrderItemCommand
+import com.cantte.orders.application.create.CreatePaymentCommand
 import com.cantte.orders.domain.OrderRepository
+import com.cantte.orders.domain.PaymentType
 import com.cantte.products.domain.Product
 import com.cantte.products.domain.ProductRepository
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -46,6 +48,7 @@ class OrderServiceTest {
             "321",
             1,
             listOf(CreateOrderItemCommand("123", 1)),
+            listOf(CreatePaymentCommand(PaymentType.CASH, 10f)),
             Date.from(Instant.now()),
             Date.from(Instant.now())
         )

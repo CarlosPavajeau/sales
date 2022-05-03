@@ -6,6 +6,7 @@ import com.cantte.orders.application.create.CreateOrderCommand
 import com.cantte.orders.domain.Order
 import com.cantte.orders.domain.OrderItem
 import com.cantte.orders.domain.OrderRepository
+import com.cantte.orders.domain.Payment
 import com.cantte.products.application.ProductService.Companion.toResponse
 import com.cantte.products.domain.ProductRepository
 import org.springframework.stereotype.Service
@@ -38,7 +39,16 @@ class OrderService(
             )
         }
 
-        val order = Order(customer.get(), deliveryAddress, items.toMutableSet(), command.createdAt, command.deliveredAt)
+        val payments = command.payments.map { Payment(it.type, it.amount) }
+
+        val order = Order(
+            customer.get(),
+            deliveryAddress,
+            items.toMutableSet(),
+            payments.toMutableSet(),
+            command.createdAt,
+            command.deliveredAt
+        )
 
         return Optional.of(repository.save(order).toResponse())
     }
@@ -50,14 +60,21 @@ class OrderService(
                 customer.toResponse(),
                 deliverAddress.toResponse(),
                 items.map { it.toResponse() },
+                payments.map { it.toResponse() },
                 createdAt,
                 deliveredAt
             )
         }
 
-        fun OrderItem.toResponse(): OrderItemResponse {
+        private fun OrderItem.toResponse(): OrderItemResponse {
             return OrderItemResponse(
                 id, product.toResponse(), quantity
+            )
+        }
+
+        private fun Payment.toResponse(): PaymentResponse {
+            return PaymentResponse(
+                type, amount
             )
         }
     }
