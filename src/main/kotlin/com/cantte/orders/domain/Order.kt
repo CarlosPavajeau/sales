@@ -35,7 +35,10 @@ data class Order(
         deliveredAt: Date?
     ) : this(
         0, customer, deliverAddress, items, payments, createdAt, deliveredAt
-    )
+    ) {
+        items.forEach { it.order = this }
+        payments.forEach { it.order = this }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
